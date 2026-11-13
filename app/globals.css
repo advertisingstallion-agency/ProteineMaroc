@@ -1,0 +1,176 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "lenis/dist/lenis.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--brand-red);
+  --color-primary-foreground: var(--paper);
+  --color-muted: var(--surface-soft);
+  --color-muted-foreground: var(--ink-muted);
+  --color-border: var(--line);
+  --color-ring: var(--brand-red);
+  --color-brand-red: var(--brand-red);
+  --color-brand-red-deep: var(--brand-red-deep);
+  --color-charcoal: var(--charcoal);
+  --color-charcoal-soft: var(--charcoal-soft);
+  --color-paper: var(--paper);
+  --color-surface-soft: var(--surface-soft);
+  --color-ink: var(--ink);
+  --color-line: var(--line);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-heading: Impact, "Arial Narrow", "Roboto Condensed", sans-serif;
+}
+
+:root {
+  --brand-red: #d72d32;
+  --brand-red-deep: #b91f28;
+  --charcoal: #202326;
+  --charcoal-soft: #2c3135;
+  --paper: #fffdf9;
+  --surface-soft: #f5f2ec;
+  --ink: #202326;
+  --ink-muted: #666a6d;
+  --line: #dedbd5;
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --radius: 0.6rem;
+}
+
+@layer base {
+  * {
+    @apply box-border;
+  }
+
+  body {
+    @apply m-0 bg-paper font-sans text-ink antialiased;
+  }
+
+  a {
+    @apply text-inherit no-underline;
+  }
+
+  :focus-visible {
+    @apply outline outline-[3px] outline-offset-4 outline-brand-red;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--brand-red) var(--charcoal);
+  }
+
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: var(--charcoal);
+  }
+
+  *::-webkit-scrollbar-thumb {
+    border: 2px solid var(--charcoal);
+    border-radius: 999px;
+    background: var(--brand-red);
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background: var(--brand-red-deep);
+  }
+}
+
+@keyframes announcement-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes drawer-slide-in {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes drawer-backdrop-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes hero-rise {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes hero-word-reveal {
+  from { opacity: 0; clip-path: inset(0 100% 0 0); transform: translateY(8px); }
+  to { opacity: 1; clip-path: inset(0 0 0 0); transform: translateY(0); }
+}
+
+@keyframes hero-rule-reveal {
+  from { opacity: .4; transform: scaleX(0); }
+  to { opacity: 1; transform: scaleX(1); }
+}
+
+.hero-title-enter { animation: hero-rise 780ms cubic-bezier(.2,.75,.25,1) both; }
+.hero-title-font { font-family: var(--font-anton), Impact, "Arial Narrow", sans-serif; }
+.hero-title-emphasis { display: inline-block; padding-right: .08em; overflow: visible; animation: hero-rise 850ms cubic-bezier(.2,.75,.25,1) 260ms both; }
+.hero-title-period { animation: hero-rise 500ms ease-out 640ms both; }
+.hero-rule { transform-origin: left center; animation: hero-rule-reveal 700ms cubic-bezier(.2,.75,.25,1) 420ms both; }
+.hero-copy { animation: hero-rise 700ms cubic-bezier(.2,.75,.25,1) 500ms both; }
+.hero-cta { animation: hero-rise 700ms cubic-bezier(.2,.75,.25,1) 650ms both; }
+.hero-support { animation: hero-rise 600ms cubic-bezier(.2,.75,.25,1) 100ms both; }
+
+.footer-link-flip {
+  display: inline-block;
+  transform-style: preserve-3d;
+  transition: transform 480ms cubic-bezier(.2,.75,.25,1);
+}
+
+.group:hover .footer-link-flip,
+.group:focus-visible .footer-link-flip {
+  transform: rotateX(360deg);
+}
+
+@supports (interpolate-size: allow-keywords) {
+  .faq-item::details-content {
+    height: 0;
+    overflow: clip;
+    opacity: 0;
+    transition: height 260ms ease, opacity 180ms ease;
+    transition-behavior: allow-discrete;
+  }
+
+  .faq-item[open]::details-content {
+    height: auto;
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-title-enter,
+  .hero-title-emphasis,
+  .hero-title-period,
+  .hero-rule,
+  .hero-copy,
+  .hero-cta,
+  .hero-support {
+    animation: none;
+    clip-path: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .footer-link-flip,
+  .group:hover .footer-link-flip,
+  .group:focus-visible .footer-link-flip {
+    transform: none;
+    transition: none;
+  }
+
+  .faq-item::details-content {
+    transition-duration: 0.01ms;
+  }
+}
